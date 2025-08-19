@@ -22,6 +22,12 @@ const PlanSchema = new Schema(
             default: "month",
             required: true,
         },
+        features: [
+            {
+                type: String,
+                required: true,
+            },
+        ],
     },
     { timestamps: true }
 );
