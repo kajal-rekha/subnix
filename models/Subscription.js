@@ -14,10 +14,14 @@ const SubscriptionSchema = new Schema(
             ref: "Plan",
             required: true,
         },
+        transaction_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Transaction",
+        },
         status: {
             type: String,
-            enum: ["active", "inactive", "canceled"],
-            default: "active",
+            enum: ["active", "expired", "canceled", "pending"],
+            default: "pending",
             required: true,
         },
         startDate: {
@@ -26,6 +30,10 @@ const SubscriptionSchema = new Schema(
         },
         endDate: {
             type: Date,
+        },
+        autoRenew: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true }
