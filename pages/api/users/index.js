@@ -3,7 +3,6 @@ import { connectDB } from "@/lib/db";
 
 export default async function handler(req, res) {
     await connectDB();
-    console.log("connected to mongo db");
 
     if (req.method === "POST") {
         return createUser(req, res);
@@ -13,6 +12,6 @@ export default async function handler(req, res) {
         res.setHeader("Allow", ["GET", "POST"]);
         return res
             .status(405)
-            .json({ error: `Method ${req.method} not aalowed` });
+            .json({ error: `Method ${req.method} not allowed` });
     }
 }
