@@ -13,6 +13,17 @@ export const createSubscription = async (req, res) => {
             return res.status(404).json({ error: "Plan not found!" });
         }
 
+        //========= check if user already has active sub =========//
+        const activeSub = await Subscription.findOne({
+            user_id,
+            status: "active",
+        });
+        if (activeSub) {
+            return res
+                .status(400)
+                .json({ error: "User already has an active subscription!" });
+        }
+
         //====== endDate calculate =======//
         let endDate = new Date();
 
@@ -36,7 +47,7 @@ export const createSubscription = async (req, res) => {
 
         res.status(200).json(subscription);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -49,7 +60,7 @@ export const getAllSubscriptions = async (req, res) => {
             .sort({ createdAt: -1 });
         res.status(200).json(subscriptions);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 };
 

@@ -1,19 +1,15 @@
-import {
-    deleteUser,
-    getAnUser,
-    updateUser,
-} from "@/controllers/userController";
+import { deletePlan, getAPlan, updatePlan } from "@/controllers/planController";
 import { connectDB } from "@/lib/db";
 
 export default async function handler(req, res) {
     await connectDB();
 
     if (req.method === "GET") {
-        return getAnUser(req, res);
+        return getAPlan(req, res);
     } else if (req.method === "PUT") {
-        return updateUser(req, res);
+        return updatePlan(req, res);
     } else if (req.method === "DELETE") {
-        return deleteUser(req, res);
+        return deletePlan(req, res);
     } else {
         res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
         return res
