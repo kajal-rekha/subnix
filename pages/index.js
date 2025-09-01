@@ -1,5 +1,11 @@
+import SignupForm from "./auth/sign-up";
+
 const HomePage = () => {
-    return <div className="text-red-600">HomePage</div>;
+    return (
+        <div className="">
+            <SignupForm />
+        </div>
+    );
 };
 
 export default HomePage;
