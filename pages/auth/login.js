@@ -1,25 +1,12 @@
 import Loading from "@/components/ui/Loading";
 import { useState } from "react";
 
-const SignupForm = () => {
+const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
-        <form className="signup-form flex flex-col gap-5 mt-28 mx-auto max-w-lg">
-            <h3 className="text-4xl font-medium">Signup</h3>
-
-            {/*======== Username ========*/}
-            <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="username">Username</label>
-                <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    className="w-full px-4 py-3 border border-light/30 focus:border-light/60 rounded-md focus:outline-none"
-                    placeholder="Enter your username"
-                    required
-                />
-            </div>
+        <form className="login-form flex flex-col gap-5 mt-28 mx-auto max-w-lg">
+            <h3 className="text-4xl font-medium">Login</h3>
 
             {/*======== Email ========*/}
             <div className="flex flex-col gap-2 w-full">
@@ -47,19 +34,6 @@ const SignupForm = () => {
                 />
             </div>
 
-            {/*======== Image ========*/}
-            <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="image">Image</label>
-                <div className="relative w-full">
-                    <input
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                        className="w-full px-4 py-3 border border-light/30 focus:border-light/60 rounded-md focus:outline-none"
-                    />
-                </div>
-            </div>
-
             <button
                 type="submit"
                 disabled={isLoading}
@@ -75,4 +49,4 @@ const SignupForm = () => {
     );
 };
 
-export default SignupForm;
+export default LoginForm;

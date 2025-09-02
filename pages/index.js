@@ -1,9 +1,11 @@
+import LoginForm from "./auth/login";
 import SignupForm from "./auth/sign-up";
 
 const HomePage = () => {
     return (
-        <div className="">
-            <SignupForm />
+        <div className="wrapper">
+            {/* <SignupForm /> */}
+            <LoginForm />
         </div>
     );
 };
