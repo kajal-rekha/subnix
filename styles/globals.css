@@ -27,8 +27,9 @@ body {
 }
 
 .wrapper {
+    width: 95%;
     margin: 0 auto;
-    @apply container mx-auto px-5 lg:px-0;
+    /* @apply container mx-auto px-5 lg:px-0; */
 }
 
 .eq {

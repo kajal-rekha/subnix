@@ -65,8 +65,8 @@ const SignupForm = () => {
                 disabled={isLoading}
                 className={`py-3 px-4 rounded ${
                     isLoading
-                        ? "bg-gray  cursor-not-allowed"
-                        : "bg-secondary text-white hover:bg-primary mt-2 eq"
+                        ? "bg-gray cursor-not-allowed"
+                        : "bg-secondary text-light hover:bg-primary mt-2 eq"
                 }`}
             >
                 {isLoading ? <Loading isLoading={isLoading} /> : "Sign Up"}
