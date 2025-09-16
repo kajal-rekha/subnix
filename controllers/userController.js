@@ -1,4 +1,4 @@
-import createToken from "@/helpers/helper";
+import createToken from "@/components/helpers/helper";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
 
