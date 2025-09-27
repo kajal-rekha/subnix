@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import "@/models/User";
+import "@/models/Plan";
+import "@/models/Transaction";
 
 const Schema = mongoose.Schema;
 
