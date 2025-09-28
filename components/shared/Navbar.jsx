@@ -1,38 +1,36 @@
 import { logout } from "@/redux/features/auth/authSlice";
-import { AlignJustify } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import Sidebar from "../Sidebar";
+// import Sidebar from "../Sidebar";
 
 const Navbar = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const session = useSelector((state) => state.auth.userAndToken);
     console.log("Redux session:", session);
 
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth < 768) {
-                setIsSidebarOpen(false);
-            } else {
-                setIsSidebarOpen(true);
-            }
-        };
+    // useEffect(() => {
+    //     const handleResize = () => {
+    //         if (window.innerWidth < 768) {
+    //             setIsSidebarOpen(false);
+    //         } else {
+    //             setIsSidebarOpen(true);
+    //         }
+    //     };
 
-        handleResize();
-        window.addEventListener("resize", handleResize);
+    //     handleResize();
+    //     window.addEventListener("resize", handleResize);
 
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener("resize", handleResize);
+    //     };
+    // }, []);
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen((prev) => !prev);
-    };
+    // const toggleSidebar = () => {
+    //     setIsSidebarOpen((prev) => !prev);
+    // };
 
     const dispatch = useDispatch();
 
@@ -43,17 +41,25 @@ const Navbar = () => {
                     {/*====== Sidebar Toggle  =====*/}
                     <div className="flex items-center gap-2 ">
                         <div>
-                            <h2 className="hidden md:block">Subnix</h2>
+                            <h2 className="">Subnix</h2>
                         </div>
 
-                        <AlignJustify
+                        {/* <AlignJustify
                             onClick={toggleSidebar}
                             className="cursor-pointer text-dark/80 dark:text-light w-5 h-5 md:w-7 md:h-7 z-10 block md:hidden"
                             aria-label="Toggle Sidebar"
-                        />
+                        /> */}
                     </div>
 
-                    <div>
+                    <div className="flex gap-5 items-center">
+                        <div>
+                            <ul className="flex gap-5 items-center">
+                                <li>dashboard</li>
+                                <li>Plans</li>
+
+                                <li>Support</li>
+                            </ul>
+                        </div>
                         {!session ? (
                             <Link href="/auth/sign-in">Sign in</Link>
                         ) : (
@@ -85,7 +91,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-            <Sidebar isOpen={isSidebarOpen} />
+            {/* <Sidebar isOpen={isSidebarOpen} /> */}
         </div>
     );
 };
