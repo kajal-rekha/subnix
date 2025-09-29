@@ -1,12 +1,15 @@
 import PlanCard from "@/components/PlanCard";
+import Loading from "@/components/ui/Loading";
 import { useEffect, useState } from "react";
 
 const Plans = () => {
     const [plans, setPlans] = useState([]);
+    const [loading, setLoading] = useState(false);
     // const [subscription, setsubscription] = useState([]);
 
     const fetchPlans = async () => {
         try {
+            setLoading(true);
             const res = await fetch("/api/plans");
             if (!res) {
                 throw new Error("Failed to fetch plans");
@@ -23,6 +26,7 @@ const Plans = () => {
         } catch (err) {
             console.error("Error fetching plans:", err);
         }
+        setLoading(false);
     };
     useEffect(() => {
         fetchPlans();
@@ -58,11 +62,20 @@ const Plans = () => {
                         repellat quo sapiente dolore molestias nemo.
                     </p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                    {plans.map((plan) => (
-                        <PlanCard key={plan._id} plan={plan} />
-                    ))}
-                </div>
+
+                {loading ? (
+                    <Loading />
+                ) : plans.length === 0 ? (
+                    <p className="text-light/80 justify-center text-lg">
+                        No plans found!
+                    </p>
+                ) : (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                        {plans.map((plan) => (
+                            <PlanCard key={plan._id} plan={plan} />
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

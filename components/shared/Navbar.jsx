@@ -9,7 +9,7 @@ const Navbar = () => {
     // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const session = useSelector((state) => state.auth.userAndToken);
-    console.log("Redux session:", session);
+    
 
     // useEffect(() => {
     //     const handleResize = () => {
@@ -54,10 +54,16 @@ const Navbar = () => {
                     <div className="flex gap-5 items-center">
                         <div>
                             <ul className="flex gap-5 items-center">
-                                <li>dashboard</li>
-                                <li>Plans</li>
-
-                                <li>Support</li>
+                                <li>
+                                    <Link href="/">dashboard</Link>
+                                </li>
+                                <li>
+                                    <Link href="/plans">Plans</Link>
+                                </li>
+                                <li>
+                                    <Link href="/support">Support</Link>
+                                </li>
+                                
                             </ul>
                         </div>
                         {!session ? (
