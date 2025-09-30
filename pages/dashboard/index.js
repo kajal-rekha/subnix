@@ -51,9 +51,9 @@ const Dashboard = () => {
 
             <p className="text-sm text-light/60 mt-6">
                 Need help choosing a plan?{" "}
-                <span className="text-blue cursor-pointer">
+                <Link href="/support" className="text-blue cursor-pointer">
                     Contact Support
-                </span>
+                </Link>
             </p>
         </div>
     );
