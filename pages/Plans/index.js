@@ -49,14 +49,14 @@ const Plans = () => {
     //     fetchSubscription();
     // }, []);
     return (
-        <div className="min-h-screen  pt-20 wrapper">
+        <div className="min-h-screen  pt-32 wrapper">
             <div>
                 <div className="flex flex-col gap-1 items-center jistify-center mb-10">
                     <span className="text-blue font-medium "> Pricing</span>
                     <h2 className="text-2xl  md:text-4xl font-medium">
                         Choose your plan
                     </h2>
-                    <p className="text-light/80  max-w-3xl text-lg">
+                    <p className="text-light/80  max-w-3xl text-lg text-center">
                         Lorem ipsum dolor sit amet consectetur, adipisicing
                         elit. Non libero quas soluta pariatur laboriosam
                         repellat quo sapiente dolore molestias nemo.
