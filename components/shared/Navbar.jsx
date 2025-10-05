@@ -35,7 +35,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
 
     return (
-        <div className="h-20 fixed top-0 left-0 right-0 z-[999] text-light flex items-center">
+        <div className="h-20 fixed top-0 left-0 right-0 z-[999] text-light bg-[#0f1327] flex items-center">
             <div className="wrapper ">
                 <div className="border-b border-light/10 pb-5 flex items-center justify-between ">
                     {/*====== Sidebar Toggle  =====*/}
@@ -63,7 +63,6 @@ const Navbar = () => {
                                 <li>
                                     <Link href="/support">Support</Link>
                                 </li>
-                                
                             </ul>
                         </div>
                         {!session ? (

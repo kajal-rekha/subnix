@@ -32,6 +32,13 @@ const Plans = () => {
         fetchPlans();
     }, []);
 
+    const colors = {
+        Free: "border-gray-100  bg-gray-500 text-black",
+        Basic: "border-blue-500 bg-blue-900 text-black",
+        Standard: "border-green-900 bg-green-500 text-black",
+        Pro: "border-white bg-purple-500 text-black",
+    };
+
     // const fetchSubscription = async () => {
     //     try {
     //         const res = await fetch("/api/subscriptions");
@@ -72,7 +79,11 @@ const Plans = () => {
                 ) : (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                         {plans.map((plan) => (
-                            <PlanCard key={plan._id} plan={plan} />
+                            <PlanCard
+                                key={plan._id}
+                                plan={plan}
+                                colorClass={colors[plan.name] || ""}
+                            />
                         ))}
                     </div>
                 )}

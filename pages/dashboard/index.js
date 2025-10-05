@@ -1,3 +1,4 @@
+import { Crown, Infinity, Phone, UserStar } from "lucide-react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
@@ -22,8 +23,11 @@ const Dashboard = () => {
                 View All Plans
             </Link>
 
-            <div className="grid grid-cols-3 gap-4 mt-14 w-full max-w-3xl">
-                <div className="p-5 border rounded-lg shadow-sm text-center flex flex-col gap-2 border-light/10 hover:border-light/20 eq">
+            <div className="grid grid-cols-3 gap-6 mt-14 w-full max-w-3xl">
+                <div className="p-5 border rounded-lg shadow-sm text-center flex flex-col items-center gap-2 border-light/10 hover:border-light/20 eq">
+                    <span className=" p-1 w-8 h-8 rounded-md">
+                        <Crown className="w-full h-full text-yellow/70" />
+                    </span>
                     <h3 className="text-[0.8rem] md:text-[1rem] font-semibold">
                         Premium Features
                     </h3>
@@ -31,7 +35,10 @@ const Dashboard = () => {
                         unlock advancd tools and exclusive access
                     </p>
                 </div>
-                <div className="p-5 border rounded-lg shadow-sm text-center flex flex-col gap-2 border-light/10 hover:border-light/20 eq">
+                <div className="p-5 border rounded-lg shadow-sm text-center flex flex-col items-center  gap-2 border-light/10 hover:border-light/20 eq">
+                    <span className=" p-1 w-8 h-8 rounded-md">
+                        <Infinity className="w-full h-full text-yellow/70" />
+                    </span>
                     <h3 className="text-[0.8rem] md:text-[1rem] font-semibold">
                         Unlimited Usages
                     </h3>
@@ -39,7 +46,10 @@ const Dashboard = () => {
                         No limits once you upgrade your plan.
                     </p>
                 </div>
-                <div className="p-5 border rounded-lg shadow-sm text-center flex flex-col gap-2 border-light/10 hover:border-light/20 eq">
+                <div className="p-5 border rounded-lg shadow-sm text-center flex flex-col items-center gap-2 border-light/10 hover:border-light/20 eq">
+                    <span className=" p-1 w-8 h-8 rounded-md">
+                        <UserStar className="w-full h-full text-yellow/70" />
+                    </span>
                     <h3 className="text-[0.8rem] md:text-[1rem] font-semibold">
                         Priority Support
                     </h3>

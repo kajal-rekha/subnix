@@ -8,13 +8,15 @@ const SupportPage = () => {
                     className="
                 grid grid-cols-1 md:grid-cols-2 gap-20 p-10"
                 >
-                    <div className="flex flex-col gap-2 ">
+                    <div className="flex flex-col gap-2">
                         <h2 className="text-2xl md:text-3xl ">
                             Contact for Support
                         </h2>
-                        <p className="text-light/80 ">
-                            Facing an issue or need help choosing a plan? Send
-                            us a message or contact us.
+                        <p className="text-light/80">
+                            Facing an issue or need help choosing a plan?
+                        </p>
+                        <p className="text-light/80">
+                            Send us a message or contact us.
                         </p>
                         <div className="mt-10 flex flex-col gap-1">
                             <div className="flex  gap-2  items-center">
