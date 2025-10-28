@@ -32,12 +32,12 @@ const Plans = () => {
         fetchPlans();
     }, []);
 
-    const colors = {
-        Free: "border-gray-100  bg-gray-500 text-black",
-        Basic: "border-blue-500 bg-blue-900 text-black",
-        Standard: "border-green-900 bg-green-500 text-black",
-        Pro: "border-white bg-purple-500 text-black",
-    };
+    // const colors = {
+    //     Free: "border-gray-100  bg-gray-500 text-black",
+    //     Basic: "border-blue-500 bg-blue-900 text-black",
+    //     Standard: "border-green-900 bg-green-500 text-black",
+    //     Pro: "border-white bg-purple-500 text-black",
+    // };
 
     // const fetchSubscription = async () => {
     //     try {
@@ -64,9 +64,9 @@ const Plans = () => {
                         Choose your plan
                     </h2>
                     <p className="text-light/80  max-w-3xl text-lg text-center">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Non libero quas soluta pariatur laboriosam
-                        repellat quo sapiente dolore molestias nemo.
+                        Pick the perfect plan that fits your goals. Whether
+                        you’re just getting started or scaling fast, we’ve got a
+                        plan that grows with you.
                     </p>
                 </div>
 
@@ -77,13 +77,9 @@ const Plans = () => {
                         No plans found!
                     </p>
                 ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8  ">
                         {plans.map((plan) => (
-                            <PlanCard
-                                key={plan._id}
-                                plan={plan}
-                                colorClass={colors[plan.name] || ""}
-                            />
+                            <PlanCard key={plan._id} plan={plan} />
                         ))}
                     </div>
                 )}
