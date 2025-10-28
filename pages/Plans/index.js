@@ -64,9 +64,9 @@ const Plans = () => {
                         Choose your plan
                     </h2>
                     <p className="text-light/80  max-w-3xl text-lg text-center">
-                        Pick the perfect plan that fits your goals. Whether
+                        {` Pick the perfect plan that fits your goals. Whether
                         you’re just getting started or scaling fast, we’ve got a
-                        plan that grows with you.
+                        plan that grows with you.`}
                     </p>
                 </div>
 
