@@ -73,7 +73,7 @@ const Plans = () => {
                 {loading ? (
                     <Loading />
                 ) : plans.length === 0 ? (
-                    <p className="text-light/80 justify-center text-lg">
+                    <p className="text-light/80 justify-center text-lg text-center">
                         No plans found!
                     </p>
                 ) : (
