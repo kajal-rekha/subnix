@@ -3,9 +3,12 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const successURL =
-    process.env.CLIENT_SUCCESS_URL || "http://localhost:3000/subscription/success";
+    process.env.CLIENT_SUCCESS_URL ||
+    "http://localhost:3000/subscription/success";
 
-const cancelURL = process.env.CLIENT_CANCEL_URL || "http://localhost:3000/subscription/cancel";
+const cancelURL =
+    process.env.CLIENT_CANCEL_URL ||
+    "http://localhost:3000/subscription/cancel";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -20,6 +23,7 @@ export default async function handler(req, res) {
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
+            mode: "payment",
             line_items: [
                 {
                     price_data: {
@@ -30,15 +34,18 @@ export default async function handler(req, res) {
                     quantity: 1,
                 },
             ],
-            mode: "payment",
-            success_url: successURL,
-            cancel_url: cancelURL,
+            success_url:
+                process.env.CLIENT_SUCCESS_URL ||
+                "http://localhost:3000/subscription/success",
+            cancel_url:
+                process.env.CLIENT_CANCEL_URL ||
+                "http://localhost:3000/subscription/cancel",
             metadata: { userId, planId },
         });
 
         return res.status(200).json({ url: session.url });
     } catch (error) {
-        console.error("Stripe Error:", error);
-        return res.status(500).json({ error: error.message });
+        console.error("Stripe Error:", error.message);
+        return res.status(500).json({ error: "Payment initialization failed" });
     }
 }
