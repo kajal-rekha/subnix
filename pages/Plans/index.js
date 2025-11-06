@@ -55,9 +55,10 @@ const Plans = () => {
     // useEffect(() => {
     //     fetchSubscription();
     // }, []);
+
     return (
-        <div className="min-h-screen  pt-32 wrapper">
-            <div>
+        <div className="min-h-screen  pt-32">
+            <div className="wrapper">
                 <div className="flex flex-col gap-1 items-center jistify-center mb-10">
                     <span className="text-blue font-medium "> Pricing</span>
                     <h2 className="text-2xl  md:text-4xl font-medium">
