@@ -27,8 +27,12 @@ export default async function handler(req, res) {
                 },
             ],
             mode: "payment",
-            success_url: `${process.env.CLIENT_SUCCESS_URL}/subscription/success`,
-            cancel_url: `${process.env.CLIENT_CANCEL_URL}/subscription/cancel`,
+            success_url:
+                process.env.CLIENT_SUCCESS_URL ||
+                "https://subnix-plan.vercel.app/subscription/success",
+            cancel_url:
+                process.env.CLIENT_CANCEL_URL ||
+                "https://subnix-plan.vercel.app/subscription/cancel",
             metadata: { userId, planId },
         });
 
