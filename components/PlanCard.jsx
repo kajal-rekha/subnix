@@ -1,6 +1,41 @@
 import { Check } from "lucide-react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const PlanCard = ({ plan }) => {
+    const [loading, setLoading] = useState(false);
+
+    const session = useSelector((state) => state.auth.userAndToken);
+
+    const handleSubscribe = async () => {
+        try {
+            setLoading(true);
+            const res = await fetch("/api/checkout", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    planId: plan._id,
+                    planName: plan.name,
+                    price: plan.price,
+                    userId: session?.user?._id,
+                }),
+            });
+
+            const data = await res.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                console.log("Failed to initiate payment");
+            }
+        } catch (error) {
+            console.error("Subscription error:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="overflow-hidden  bg-secondary p-5 rounded-xl shadow-md border border-light/10 hover:border-blue/40 eq mt-5">
             <div
@@ -32,8 +67,12 @@ const PlanCard = ({ plan }) => {
                     ))}
                 </p>
 
-                <button className="bg-blue p-1.5 rounded-md cursor-pointer text-secondary mt-2">
-                    Subscripe Plan
+                <button
+                    onClick={handleSubscribe}
+                    disabled={loading}
+                    className="bg-blue p-1.5 rounded-md cursor-pointer text-secondary mt-2"
+                >
+                    {loading ? "Processing..." : " Subscripe Plan"}
                 </button>
             </div>
         </div>
