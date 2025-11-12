@@ -27,12 +27,8 @@ export default async function handler(req, res) {
                 },
             ],
             mode: "payment",
-            success_url:
-                process.env.CLIENT_SUCCESS_URL ||
-                "http://localhost:3000/subscription/success",
-            cancel_url:
-                process.env.CLIENT_CANCEL_URL ||
-                "http://localhost:3000/subscription/cancel",
+            success_url: `${process.env.CLIENT_SUCCESS_URL}/subscription/success`,
+            cancel_url: `${process.env.CLIENT_CANCEL_URL}subscription/cancel`,
             metadata: { userId, planId },
         });
 
