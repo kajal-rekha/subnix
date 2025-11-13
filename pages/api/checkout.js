@@ -29,10 +29,10 @@ export default async function handler(req, res) {
             mode: "payment",
             success_url:
                 process.env.CLIENT_SUCCESS_URL ||
-                "https://subnix-plan.vercel.app/subscription/success",
+                "https://subnix-plan.vercel.app/success",
             cancel_url:
                 process.env.CLIENT_CANCEL_URL ||
-                "https://subnix-plan.vercel.app/subscription/cancel",
+                "https://subnix-plan.vercel.app/cancel",
             metadata: { userId, planId },
         });
 
