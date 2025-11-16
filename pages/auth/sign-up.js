@@ -57,7 +57,12 @@ const SignupForm = () => {
                 if (response.data) {
                     toast.success("Signup successful!");
 
-                    dispatch(signup(response.data.user));
+                    dispatch(
+                        signup({
+                            user: response.data.user,
+                            token: response.data.token,
+                        })
+                    );
                     setFormData({
                         username: "",
                         email: "",

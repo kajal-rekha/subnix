@@ -1,5 +1,7 @@
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 const PlanCard = ({ plan }) => {
@@ -7,13 +9,29 @@ const PlanCard = ({ plan }) => {
 
     const session = useSelector((state) => state.auth.userAndToken);
 
+    console.log("session:", session);
+
+    const router = useRouter();
+
     const handleSubscribe = async () => {
+        const token = session?.token;
+
+        if (!token) {
+            toast.error("You must be logged in to proceed to checkout.");
+            
+            setTimeout(() => {
+                router.push("/auth/sign-in?redirect=/plans");
+            }, 500);
+            return;
+        }
+
         try {
             setLoading(true);
             const res = await fetch("/api/checkout", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     planId: plan._id,
@@ -27,7 +45,7 @@ const PlanCard = ({ plan }) => {
             if (data.url) {
                 window.location.href = data.url;
             } else {
-                console.log("Failed to initiate payment");
+                toast.error("Failed to initiate payment");
             }
         } catch (error) {
             console.error("Subscription error:", error);
@@ -40,7 +58,7 @@ const PlanCard = ({ plan }) => {
         <div className="overflow-hidden  bg-secondary p-5 rounded-xl shadow-md border border-light/10 hover:border-blue/40 eq mt-5">
             <div
                 className="flex flex-col gap-2  
-                   text-light  "
+                   text-light"
             >
                 <div className="flex flex-col gap-2 p-3 rounded-md">
                     <h3 className="text-2xl"> {plan.name}</h3>

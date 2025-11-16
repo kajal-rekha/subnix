@@ -38,7 +38,13 @@ const SignInForm = () => {
 
                 if (response.data) {
                     toast.success("Login successful!");
-                    dispatch(login(response.data.user));
+                    
+                    dispatch(
+                        login({
+                            user: response.data.user,
+                            token: response.data.token,
+                        })
+                    );
 
                     setFormData({
                         email: "",
