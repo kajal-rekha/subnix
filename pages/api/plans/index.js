@@ -1,11 +1,17 @@
 import { createPlan, getAllPlans } from "@/controllers/planController";
 import { connectDB } from "@/lib/db";
+import isAuthenticated from "@/middlewares/auth";
+import isAdmin from "@/middlewares/isAdmin";
 
 export default async function handler(req, res) {
     await connectDB();
 
     if (req.method === "POST") {
-        return createPlan(req, res);
+        await isAuthenticated(req, res, async () => {
+            await isAdmin(req, res, async () => {
+                return createPlan(req, res);
+            });
+        });
     } else if (req.method === "GET") {
         return getAllPlans(req, res);
     } else {

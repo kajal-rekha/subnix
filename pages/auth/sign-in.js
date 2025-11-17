@@ -38,7 +38,10 @@ const SignInForm = () => {
 
                 if (response.data) {
                     toast.success("Login successful!");
+                   
                     
+                    console.log("Logged in user:", response.data.user);
+                    console.log("Token:", response.data.token);
                     dispatch(
                         login({
                             user: response.data.user,

@@ -71,8 +71,8 @@ const Navbar = () => {
                             <div className="flex items-center gap-5">
                                 <div className="w-12 h-12 overflow-hidden rounded-full">
                                     <Image
-                                        src={session.image}
-                                        alt={session.username}
+                                        src={session.user.image}
+                                        alt={session.user.username}
                                         width={64}
                                         height={64}
                                         priority

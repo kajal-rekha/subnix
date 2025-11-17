@@ -1,5 +1,7 @@
 import { deletePlan, getAPlan, updatePlan } from "@/controllers/planController";
 import { connectDB } from "@/lib/db";
+import isAuthenticated from "@/middlewares/auth";
+import isAdmin from "@/middlewares/isAdmin";
 
 export default async function handler(req, res) {
     await connectDB();
@@ -7,9 +9,17 @@ export default async function handler(req, res) {
     if (req.method === "GET") {
         return getAPlan(req, res);
     } else if (req.method === "PUT") {
-        return updatePlan(req, res);
+        await isAuthenticated(req, res, async () => {
+            await isAdmin(req, res, async () => {
+                return updatePlan(req, res);
+            });
+        });
     } else if (req.method === "DELETE") {
-        return deletePlan(req, res);
+        await isAuthenticated(req, res, async () => {
+            await isAdmin(req, res, async () => {
+                return deletePlan(req, res);
+            });
+        });
     } else {
         res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
         return res
