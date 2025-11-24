@@ -5,6 +5,8 @@ import {
     updateSubscription,
 } from "@/controllers/subscriptionController";
 import { connectDB } from "@/lib/db";
+import isAuthenticated from "@/middlewares/auth";
+import isAdmin from "@/middlewares/isAdmin";
 
 export default async function handler(req, res) {
     await connectDB();
@@ -15,7 +17,11 @@ export default async function handler(req, res) {
         const { action } = req.query;
 
         if (action === "update") {
-            return updateSubscription(req, res);
+            await isAuthenticated(req, res, async () => {
+                await isAdmin(req, res, async () => {
+                    return updateSubscription(req, res);
+                });
+            });
         } else if (action === "cancel") {
             return cancelSubscription(req, res);
         } else if (action === "expire") {

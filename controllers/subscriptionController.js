@@ -68,6 +68,7 @@ export const getAllSubscriptions = async (req, res) => {
 export const getASubscription = async (req, res) => {
     try {
         const { id } = req.query;
+
         const subscription = await Subscription.findById(id)
             .populate("user_id", "username email")
             .populate("plan_id", "name price duration durationUnit");
@@ -147,6 +148,25 @@ export const expireSubscription = async (req, res) => {
         }
 
         res.status(200).json(subscription);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+//=========== Get Logged In User's Subscription ==========//
+export const getMySubscription = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const subscription = await Subscription.findOne({
+            user_id: userId,
+        }).populate("plan_id", "name price duration durationUnit");
+
+        if (!subscription) {
+            return res.status(404).json({ error: "No subscription found!" });
+        }
+
+        return res.status(200).json(subscription);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
