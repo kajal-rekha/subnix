@@ -25,13 +25,14 @@ export default async function handler(req, res) {
     try {
         event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
     } catch (err) {
-        console.error(" Webhook signature verification failed:", err.message);
+        console.error("Webhook signature verification failed:", err.message);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
     switch (event.type) {
         case "checkout.session.completed": {
             const session = event.data.object;
+
             const userId = session.metadata?.userId;
             const planId = session.metadata?.planId;
 
@@ -39,25 +40,36 @@ export default async function handler(req, res) {
 
             const plan = await Plan.findById(planId);
             if (plan) {
-                const expiresAt = new Date();
+                const startDate = new Date();
+                const endDate = new Date(startDate);
+
                 if (plan.durationUnit === "day")
-                    expiresAt.setDate(expiresAt.getDate() + plan.duration);
+                    endDate.setDate(endDate.getDate() + plan.duration);
+
                 if (plan.durationUnit === "month")
-                    expiresAt.setMonth(expiresAt.getMonth() + plan.duration);
+                    endDate.setMonth(endDate.getMonth() + plan.duration);
+
                 if (plan.durationUnit === "year")
-                    expiresAt.setFullYear(
-                        expiresAt.getFullYear() + plan.duration
-                    );
+                    endDate.setFullYear(endDate.getFullYear() + plan.duration);
+
+                // await Subscription.create({
+                //     user_id: userId,
+                //     plan_id: planId,
+                //     status: "active",
+                //     startDate,
+                //     endDate,
+                // });
 
                 await Subscription.create({
-                    userId,
-                    planId,
+                    user_id: userId,
+                    plan_id: planId,
                     paymentStatus: "paid",
                     stripeSessionId: session.id,
                     amount: session.amount_total / 100,
                     currency: session.currency,
                     expiresAt,
                 });
+
             }
             break;
         }

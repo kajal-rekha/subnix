@@ -56,7 +56,7 @@ export const getAllSubscriptions = async (req, res) => {
     try {
         const subscriptions = await Subscription.find({})
             .populate("user_id", "username email")
-            .populate("plan_id", "name price duration durationUnit")
+            .populate("plan_id", "name price duration durationUnit  features")
             .sort({ createdAt: -1 });
         res.status(200).json(subscriptions);
     } catch (error) {
@@ -71,7 +71,7 @@ export const getASubscription = async (req, res) => {
 
         const subscription = await Subscription.findById(id)
             .populate("user_id", "username email")
-            .populate("plan_id", "name price duration durationUnit");
+            .populate("plan_id", "name price duration durationUnit features ");
 
         if (!subscription) {
             return res.status(404).json({ error: "Subscription not found!" });
