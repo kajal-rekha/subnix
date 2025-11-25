@@ -22,7 +22,7 @@ const SuccessPage = () => {
                     },
                 });
                 const data = await res.json();
-
+                console.log(data);
                 const sorted = Array.isArray(data)
                     ? data.sort(
                           (a, b) =>

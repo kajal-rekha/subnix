@@ -56,8 +56,8 @@ export const getAllSubscriptions = async (req, res) => {
     try {
         const subscriptions = await Subscription.find({})
             .populate("user_id", "username email")
-            .populate("plan_id", "name price duration durationUnit  features")
-            .sort({ createdAt: -1 });
+            .populate("plan_id", "name price duration durationUnit  features");
+
         res.status(200).json(subscriptions);
     } catch (error) {
         res.status(500).json({ error: error.message });
