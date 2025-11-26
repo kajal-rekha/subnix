@@ -13,7 +13,7 @@ const SuccessPage = () => {
     useEffect(() => {
         if (!session) return;
 
-        const fetchSubscriptions = async () => {
+        const fetchUserSubscription = async () => {
             try {
                 const res = await fetch("/api/subscriptions", {
                     headers: {
@@ -21,22 +21,24 @@ const SuccessPage = () => {
                         "Content-Type": "application/json",
                     },
                 });
-                const data = await res.json();
-                console.log(data);
-                const sorted = Array.isArray(data)
-                    ? data.sort(
-                          (a, b) =>
-                              new Date(b.createdAt) - new Date(a.createdAt)
-                      )
-                    : [data];
 
-                setLatestSub(sorted[0]);
+                const data = await res.json();
+
+                const userSubs = Array.isArray(data)
+                    ? data.filter((sub) => sub.user_id._id === session.user._id)
+                    : [];
+
+                const latest = userSubs.sort(
+                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                )[0];
+
+                setLatestSub(latest || null);
             } catch (err) {
                 console.error(err);
             }
         };
 
-        fetchSubscriptions();
+        fetchUserSubscription();
     }, [session]);
 
     if (!latestSub)
