@@ -47,10 +47,10 @@ const SuccessPage = () => {
 
     if (!latestSub)
         return (
-            <p className="pt-32">
+            <div className="pt-32">
                 {" "}
                 <Loading />{" "}
-            </p>
+            </div>
         );
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-secondary text-light px-4">
@@ -60,14 +60,13 @@ const SuccessPage = () => {
                     Payment Successful
                 </h2>
 
+                <p>Plan Name: {latestSub?.plan_id?.name || "No plan found"}</p>
+
                 <p className="text-light/70 ">
-                    Plan Name: {latestSub.plan_id?.name}
-                </p>
-                <p className="text-light/70 ">
-                    PlanId: {latestSub.plan_id?._id}
+                    PlanId: {latestSub?.plan_id?._id}
                 </p>
                 <Link
-                    href={`/subscriptions/${latestSub._id}`}
+                    href={`/subscriptions/${latestSub?._id}`}
                     className="bg-blue text-secondary px-6 py-2 rounded-md hover:bg-blue/80 eq mt-2"
                 >
                     Go to your Subscription page
