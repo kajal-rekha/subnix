@@ -4,6 +4,7 @@ import Loading from "@/components/ui/Loading";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 const SuccessPage = () => {
@@ -11,7 +12,10 @@ const SuccessPage = () => {
     const session = useSelector((state) => state.auth.userAndToken);
 
     useEffect(() => {
-        if (!session) return;
+        if (!session || !session.token) {
+            toast.error("You must be logged in to view this page!");
+            return;
+        }
 
         const fetchUserSubscription = async () => {
             try {
@@ -44,10 +48,10 @@ const SuccessPage = () => {
     if (!latestSub)
         return (
             <p className="pt-32">
-                <Loading />
+                {" "}
+                <Loading />{" "}
             </p>
         );
-
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-secondary text-light px-4">
             <CheckCircle className="w-16 h-16 text-green-500 mb-4" />

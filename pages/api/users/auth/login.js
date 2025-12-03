@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 export default async function handler(req, res) {
     await connectDB();
+    
     if (req.method === "POST") {
         const { email, password } = req.body;
 

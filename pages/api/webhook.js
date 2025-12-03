@@ -39,38 +39,42 @@ export default async function handler(req, res) {
             console.log("✅ Payment successful for user:", userId);
 
             const plan = await Plan.findById(planId);
-            if (plan) {
-                const startDate = new Date();
-                const endDate = new Date(startDate);
 
-                if (plan.durationUnit === "day")
-                    endDate.setDate(endDate.getDate() + plan.duration);
+            if (!plan) break;
 
-                if (plan.durationUnit === "month")
-                    endDate.setMonth(endDate.getMonth() + plan.duration);
+            const startDate = new Date();
+            const endDate = new Date(startDate);
 
-                if (plan.durationUnit === "year")
-                    endDate.setFullYear(endDate.getFullYear() + plan.duration);
+            if (plan.durationUnit === "day")
+                endDate.setDate(endDate.getDate() + plan.duration);
 
-                // await Subscription.create({
-                //     user_id: userId,
-                //     plan_id: planId,
-                //     status: "active",
-                //     startDate,
-                //     endDate,
-                // });
+            if (plan.durationUnit === "month")
+                endDate.setMonth(endDate.getMonth() + plan.duration);
 
-                await Subscription.create({
-                    user_id: userId,
-                    plan_id: planId,
-                    paymentStatus: "paid",
-                    stripeSessionId: session.id,
-                    amount: session.amount_total / 100,
-                    currency: session.currency,
-                    expiresAt,
-                });
+            if (plan.durationUnit === "year")
+                endDate.setFullYear(endDate.getFullYear() + plan.duration);
 
-            }
+            // await Subscription.create({
+            //     user_id: userId,
+            //     plan_id: planId,
+            //     status: "active",
+            //     startDate,
+            //     endDate,
+            // });
+
+            await Subscription.create({
+                user_id: userId,
+                plan_id: planId,
+                status: "active",
+                startDate,
+                endDate,
+                paymentStatus: "paid",
+                stripeSessionId: session.id,
+                amount: session.amount_total / 100,
+                currency: session.currency,
+            });
+
+            console.log("subscription created for user:", userId);
             break;
         }
 
