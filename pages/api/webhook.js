@@ -1,3 +1,92 @@
+// import { connectDB } from "@/lib/db";
+// import Plan from "@/models/Plan";
+// import Subscription from "@/models/Subscription";
+// import Stripe from "stripe";
+
+// export const config = {
+//     api: { bodyParser: false },
+// };
+
+// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+// export default async function handler(req, res) {
+//     if (req.method !== "POST") {
+//         res.setHeader("Allow", ["POST"]);
+//         return res.status(405).end(`Method ${req.method} Not Allowed`);
+//     }
+
+//     await connectDB();
+
+//     const sig = req.headers["stripe-signature"];
+//     const buf = await buffer(req);
+
+//     let event;
+//     try {
+//         event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
+//     } catch (err) {
+//         console.error("Webhook signature verification failed:", err.message);
+//         return res.status(400).send(`Webhook Error: ${err.message}`);
+//     }
+
+//       console.log("WEBHOOK RECEIVED:", event.type);
+
+//     switch (event.type) {
+//         case "checkout.session.completed": {
+//             const session = event.data.object;
+
+//             const userId = session.metadata?.userId;
+//             const planId = session.metadata?.planId;
+
+//             console.log("✅ Payment successful for user:", userId);
+
+//             const plan = await Plan.findById(planId);
+
+//             if (!plan) break;
+
+//             const startDate = new Date();
+//             const endDate = new Date(startDate);
+
+//             if (plan.durationUnit === "day")
+//                 endDate.setDate(endDate.getDate() + plan.duration);
+
+//             if (plan.durationUnit === "month")
+//                 endDate.setMonth(endDate.getMonth() + plan.duration);
+
+//             if (plan.durationUnit === "year")
+//                 endDate.setFullYear(endDate.getFullYear() + plan.duration);
+
+//             // await Subscription.create({
+//             //     user_id: userId,
+//             //     plan_id: planId,
+//             //     status: "active",
+//             //     startDate,
+//             //     endDate,
+//             // });
+
+//             await Subscription.create({
+//                 user_id: userId,
+//                 plan_id: planId,
+//                 status: "active",
+//                 startDate,
+//                 endDate,
+//                 paymentStatus: "paid",
+//                 stripeSessionId: session.id,
+//                 amount: session.amount_total / 100,
+//                 currency: session.currency,
+//             });
+
+//             console.log("subscription created for user:", userId);
+//             break;
+//         }
+
+//         default:
+//             console.log(`Unhandled event type: ${event.type}`);
+//     }
+
+//     res.status(200).json({ received: true });
+// }
+
 import { connectDB } from "@/lib/db";
 import Plan from "@/models/Plan";
 import Subscription from "@/models/Subscription";
@@ -12,8 +101,8 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
-        res.setHeader("Allow", ["POST"]);
-        return res.status(405).end(`Method ${req.method} Not Allowed`);
+        res.setHeader("Allow", "POST");
+        return res.status(405).send("Method Not Allowed");
     }
 
     await connectDB();
@@ -22,67 +111,63 @@ export default async function handler(req, res) {
     const buf = await buffer(req);
 
     let event;
+
     try {
         event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
     } catch (err) {
-        console.error("Webhook signature verification failed:", err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
+        console.error(" Webhook signature failed:", err.message);
+        return res.status(400).send("Webhook signature mismatch");
     }
 
-    switch (event.type) {
-        case "checkout.session.completed": {
-            const session = event.data.object;
+    console.log(" EVENT RECEIVED:", event.type);
 
-            const userId = session.metadata?.userId;
-            const planId = session.metadata?.planId;
+    if (event.type === "checkout.session.completed") {
+        const session = event.data.object;
 
-            console.log("✅ Payment successful for user:", userId);
+        const userId = session.metadata?.userId;
+        const planId = session.metadata?.planId;
 
-            const plan = await Plan.findById(planId);
+        console.log(" METADATA:", session.metadata);
 
-            if (!plan) break;
-
-            const startDate = new Date();
-            const endDate = new Date(startDate);
-
-            if (plan.durationUnit === "day")
-                endDate.setDate(endDate.getDate() + plan.duration);
-
-            if (plan.durationUnit === "month")
-                endDate.setMonth(endDate.getMonth() + plan.duration);
-
-            if (plan.durationUnit === "year")
-                endDate.setFullYear(endDate.getFullYear() + plan.duration);
-
-            // await Subscription.create({
-            //     user_id: userId,
-            //     plan_id: planId,
-            //     status: "active",
-            //     startDate,
-            //     endDate,
-            // });
-
-            await Subscription.create({
-                user_id: userId,
-                plan_id: planId,
-                status: "active",
-                startDate,
-                endDate,
-                paymentStatus: "paid",
-                stripeSessionId: session.id,
-                amount: session.amount_total / 100,
-                currency: session.currency,
-            });
-
-            console.log("subscription created for user:", userId);
-            break;
+        if (!userId || !planId) {
+            console.log(" Missing metadata");
+            return res.status(200).send("Missing metadata");
         }
 
-        default:
-            console.log(`Unhandled event type: ${event.type}`);
+        const plan = await Plan.findById(planId);
+
+        if (!plan) {
+            console.log(" Plan not found");
+            return res.status(200).send("Plan not found");
+        }
+
+        const startDate = new Date();
+        const endDate = new Date(startDate);
+
+        if (plan.durationUnit === "day")
+            endDate.setDate(endDate.getDate() + plan.duration);
+
+        if (plan.durationUnit === "month")
+            endDate.setMonth(endDate.getMonth() + plan.duration);
+
+        if (plan.durationUnit === "year")
+            endDate.setFullYear(endDate.getFullYear() + plan.duration);
+
+        await Subscription.create({
+            user_id: userId,
+            plan_id: planId,
+            status: "active",
+            startDate,
+            endDate,
+            stripeSessionId: session.id,
+            amount: session.amount_total / 100,
+            currency: session.currency,
+        });
+
+        console.log(" Subscription created:", userId);
     }
 
-    res.status(200).json({ received: true });
+    res.status(200).send("Webhook received");
 }
 
 async function buffer(readable) {
