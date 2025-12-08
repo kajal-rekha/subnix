@@ -18,7 +18,7 @@ const PlanCard = ({ plan }) => {
 
         if (!token) {
             toast.error("You must be logged in to proceed to checkout.");
-
+            
             setTimeout(() => {
                 router.push("/auth/sign-in?redirect=/plans");
             }, 500);
