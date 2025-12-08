@@ -36,9 +36,7 @@ const PlanCard = ({ plan }) => {
             const data = await res.json();
 
             if (!Array.isArray(data)) {
-                toast.error(
-                    "Unable to check subscription. Please login again."
-                );
+                toast.error("Unable to check subscription. Please try again.");
                 return;
             }
 
@@ -47,7 +45,7 @@ const PlanCard = ({ plan }) => {
             );
 
             if (hasActive) {
-                toast.error("You already have an active subscription!");
+                toast.error("You already have an active subscription Plan!");
                 return;
             }
         } catch (err) {
