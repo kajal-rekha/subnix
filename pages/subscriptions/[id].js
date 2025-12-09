@@ -46,16 +46,15 @@ const SubscriptionDetailsPage = () => {
 
     if (loading)
         return (
-            <p className="pt-32">
+            <div className="pt-32">
                 <Loading />
-            </p>
+            </div>
         );
     if (error)
         return (
-            <p className="pt-28 text-red">
-                {" "}
-                <Error />{" "}
-            </p>
+            <div className="pt-28 text-red">
+                <Error />
+            </div>
         );
     if (!subscription) return <p className="pt-28">No subscription found</p>;
 
