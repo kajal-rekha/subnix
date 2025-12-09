@@ -62,9 +62,9 @@ const SubscriptionDetailsPage = () => {
 
     return (
         <div className="wrapper pt-28 min-h-screen">
-            <h2 className="text-3xl font-bold mb-6">Subscription Details</h2>
+            <h2 className="text-3xl mb-6">Subscription Details</h2>
             <div className="p-4 bg-light text-black shadow rounded border max-w-3xl">
-                <h3 className="text-xl font-semibold">Name: {plan.name}</h3>
+                <h3 className="text-xl">Name: {plan.name}</h3>
                 <p>Price: {plan.price} BDT</p>
                 <p>
                     Duration: {plan.duration} {plan.durationUnit}
